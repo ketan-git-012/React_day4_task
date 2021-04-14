@@ -8,9 +8,6 @@ const styles = {
         background: '#efefef'
     },
 
-    hidden:{
-        display : 'none'
-    },
     input : {
         width: '100%',
         padding: '15px',
@@ -21,8 +18,8 @@ const styles = {
     },
 
     hr : {
-        border: "1px solid #f1f1f1",
-        marginBottom: "25px"
+    border: "1px solid #f1f1f1",
+    marginBottom: "25px"
     },
 
     boldText : {

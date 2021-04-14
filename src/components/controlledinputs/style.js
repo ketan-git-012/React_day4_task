@@ -8,9 +8,6 @@ const styles = {
         background: '#efefef'
     },
 
-    hidden:{
-        display : 'none'
-    },
     input : {
         width: '100%',
         padding: '15px',
@@ -35,6 +32,10 @@ const styles = {
 
     error : {
         border:'1px solid red !important'
+    },
+
+    hidden: {
+        display : 'none'
     }
     
 }
