@@ -225,7 +225,7 @@ export default function DisplayProfile({match, props}){
                     columns={[
                         {
                             field : 'matchtype',
-                            label : 'Match Type',
+                            label : 'Matches Type',
                         },
                         {
                             field : 'runs',
