@@ -22,6 +22,7 @@ import axios from "axios";
 import { baseURL } from './../../configs/configuration';
 import EditTraineeDialog from "../Dialog/EditTraineeDialog";
 import { TraineeRow } from './../Trainee/components/TraineeRow';
+import { UPDATE_TRAINEE } from "../../pages/Trainee/Mutation";
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -136,8 +137,8 @@ function TableTrainee(props) {
 
 
   const editHandler = (data) => {
-    setOpenEdit(true);
     setEditData(data);
+    setOpenEdit(true);
     console.log("selected id for editing : ", data);
   };
 
@@ -146,7 +147,31 @@ function TableTrainee(props) {
   };
 
   const handleUpdate = (data) => {
-    console.log("updating data : ", data);
+    console.log("updating data: ", data);
+    const {id : _id, firstname, lastname, email, image} = data;
+    client.mutate({
+      mutation : UPDATE_TRAINEE,
+      variables : {
+            id : _id,
+            firstname : firstname,
+            lastname : lastname,
+            email : email,
+            image : image
+      }
+    })
+    .then((response)=>{
+      setOpenSnack(true);
+      setSnackBarMessage("Updated Successfully!");
+      setSnackType("success");
+      setOpenEdit(false);
+      window.location.reload(false);
+    })
+    .catch((error)=>{
+      setOpenSnack(true);
+      setSnackBarMessage("Updation Failed!");
+      setSnackType("error");
+      setOpenEdit(false);
+    })
   }
 
   return (
@@ -170,8 +195,7 @@ function TableTrainee(props) {
         <EditTraineeDialog 
           edit={openEdit}
           handleClose={handleEditCancel}
-          values={editData}
-          isSubmitting={isSubmitting}
+          editData={editData}
           handleUpdate={handleUpdate} 
         />
 
@@ -208,7 +232,6 @@ function TableTrainee(props) {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                     <TraineeRow  
-                    // key={row._id}
                     {...row}
                     editHandler={editHandler}
                     handleDeleteDialogOpen={handleDeleteDialogOpen} />

@@ -1,12 +1,14 @@
+import React, { useState } from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
-import React from 'react';
 import { TextField, Button, InputAdornment} from '@material-ui/core';
-import { traineeValidation } from './../home/recordValidation';
-import { AccountCircle, Email, SportsCricket } from '@material-ui/icons';
+import { AccountCircle, Email } from '@material-ui/icons';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+
+import { traineeValidation } from './../home/recordValidation';
+
 
 const styles = {
     actions : {
@@ -27,36 +29,25 @@ const styles = {
 
 
 export default function EditTraineeDialog(props){
+    // console.log("props: ", props.editData)
     // console.log("form data:", props.values);
-    const formik = useFormik({
-        initialValues : {
-            firstname : "",
-            lastname : "",
-            email : "",
-        },
-        validateOnChange : (values) =>{
-            console.log("values onCHange:", values)
-        },
-        enableReinitialize: true,
-        validationSchema : Yup.object().shape(traineeValidation),
-        onSubmit : (values) =>{
-            console.log("values:", values);
-            // alert(JSON.stringify(values, null, 2))
-            props.handleUpdate(values);
-        }
-    });
+    const [values, setValues] = useState(props.editData);
+    const [firstname, setFirstname] = useState(props.editData.firstname);
+    const [lastname, setLastname] = useState(props.editData.lastname);
+    const [email, setEmail] = useState(props.editData.email);
 
     const handleClose = () => {
         props.handleClose();
     }
 
-
+    const handleUpdate = () => {
+        props.handleUpdate({ id: props.editData.id, firstname, lastname, email, image: props.editData.image });
+    }
 
     return (
 
         <Dialog
         open={props.edit}
-        // TransitionComponent={Transition}
         keepMounted
         onClose={props.handleClose}
         aria-labelledby = "alert-dialog-slide-title"
@@ -67,11 +58,10 @@ export default function EditTraineeDialog(props){
         </DialogTitle>
 
         <DialogContent>
-        <form fullWidth onSubmit={formik.handleSubmit} class={styles.container}>
+        <form fullWidth class={styles.container}>
             <TextField 
                 id="firstname"
-                // firstname="firstname"
-                value={props.values.firstname}
+                value={firstname}
                 style={styles.input}
                 type="text"
                 variant="outlined"
@@ -84,15 +74,15 @@ export default function EditTraineeDialog(props){
                       </InputAdornment>
                     ),
                   }}
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
+                // onBlur={formik.handleBlur}
+                onChange={(e) => setFirstname(e.target.value)}
                 // helperText={ formik.touched.firstname ? formik.errors.firstname : ""}
                 // error={formik.touched.firstname && Boolean(formik.errors.firstname)}
             />
 
             <TextField 
                 id="lastname"
-                value={props.values.lastname}
+                value={lastname}
                 style={styles.input}
                 // firstname="lastname"
                 type="text"
@@ -105,15 +95,15 @@ export default function EditTraineeDialog(props){
                         </InputAdornment>
                       ),}} 
                 fullWidth
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
+                // onBlur={formik.handleBlur}
+                onChange={(e) => setLastname(e.target.value)}
                 // helperText={ formik.touched.lastname ? formik.errors.lastname : ""}
                 // error={formik.touched.lastname && Boolean(formik.errors.lastname)}
             />
 
             <TextField 
                 style={styles.input}
-                value={props.values.email}
+                value={email}
                 id="email"
                 // firstname="email"
                 type="email"
@@ -126,8 +116,8 @@ export default function EditTraineeDialog(props){
                       ),}} 
                 variant="outlined"
                 fullWidth
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
+                // onBlur={formik.handleBlur}
+                onChange={(e)=> setEmail(e.target.value)}
                 // helperText={ formik.touched.email ? formik.errors.email : ""}
                 // error={formik.touched.email && Boolean(formik.errors.email)}
             />
@@ -137,7 +127,7 @@ export default function EditTraineeDialog(props){
                 <Button style={styles.button} variant="contained" type="reset" onClick={handleClose} color="primary">
                     Close
                 </Button>
-                <Button style={styles.button} variant="contained" type="submit" color="primary">
+                <Button style={styles.button} variant="contained" onClick={handleUpdate} type="button" color="primary">
                     Update
                 </Button>
             </div>
