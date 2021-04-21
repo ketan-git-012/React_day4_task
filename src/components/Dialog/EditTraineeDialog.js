@@ -3,8 +3,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import React from 'react';
 import { TextField, Button, InputAdornment} from '@material-ui/core';
-import {recordValidation} from './../home/recordValidation';
-import { SportsCricket } from '@material-ui/icons';
+import { traineeValidation } from './../home/recordValidation';
+import { AccountCircle, Email, SportsCricket } from '@material-ui/icons';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -26,24 +26,30 @@ const styles = {
 };
 
 
-export default function EditDialog(props){
+export default function EditTraineeDialog(props){
+    // console.log("form data:", props.values);
     const formik = useFormik({
         initialValues : {
-            matches : "",
-            runs : "",
-            highScore : "",
-            strikeRate : ""
+            firstname : "",
+            lastname : "",
+            email : "",
         },
-        validationSchema : Yup.object().shape(recordValidation),
+        validateOnChange : (values) =>{
+            console.log("values onCHange:", values)
+        },
+        enableReinitialize: true,
+        validationSchema : Yup.object().shape(traineeValidation),
         onSubmit : (values) =>{
             console.log("values:", values);
-            alert(JSON.stringify(values, null, 2))
+            // alert(JSON.stringify(values, null, 2))
+            props.handleUpdate(values);
         }
     });
 
     const handleClose = () => {
         props.handleClose();
     }
+
 
 
     return (
@@ -63,88 +69,67 @@ export default function EditDialog(props){
         <DialogContent>
         <form fullWidth onSubmit={formik.handleSubmit} class={styles.container}>
             <TextField 
-                id="matches"
-                // matches="matches"
-                value={props.matches}
+                id="firstname"
+                // firstname="firstname"
+                value={props.values.firstname}
                 style={styles.input}
                 type="text"
                 variant="outlined"
                 fullWidth
-                label="Matches"
+                label="Firstname"
                 InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <SportsCricket />
+                        <AccountCircle />
                       </InputAdornment>
                     ),
                   }}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
-                // helperText={ formik.touched.matches ? formik.errors.matches : ""}
-                // error={formik.touched.matches && Boolean(formik.errors.matches)}
+                // helperText={ formik.touched.firstname ? formik.errors.firstname : ""}
+                // error={formik.touched.firstname && Boolean(formik.errors.firstname)}
             />
 
             <TextField 
-                id="runs"
-                value={props.runs}
+                id="lastname"
+                value={props.values.lastname}
                 style={styles.input}
-                // matches="runs"
-                type="number"
-                label="Runs"
+                // firstname="lastname"
+                type="text"
+                label="Lastname"
                 variant="outlined"
                 InputProps={{ 
                     startAdornment: (
                         <InputAdornment position="start">
-                          <SportsCricket />
+                          <AccountCircle />
                         </InputAdornment>
                       ),}} 
                 fullWidth
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
-                // helperText={ formik.touched.runs ? formik.errors.runs : ""}
-                // error={formik.touched.runs && Boolean(formik.errors.runs)}
+                // helperText={ formik.touched.lastname ? formik.errors.lastname : ""}
+                // error={formik.touched.lastname && Boolean(formik.errors.lastname)}
             />
 
             <TextField 
                 style={styles.input}
-                value={props.highScore}
-                id="highScore"
-                // matches="highScore"
-                type="number"
-                label="High Score"
+                value={props.values.email}
+                id="email"
+                // firstname="email"
+                type="email"
+                label="Email"
                 InputProps={{ 
                     startAdornment: (
                         <InputAdornment position="start">
-                          <SportsCricket />
-                        </InputAdornment>
-                      ),}} 
-                variant="outlined"
-                fullWidth
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                // helperText={ formik.touched.highScore ? formik.errors.highScore : ""}
-                // error={formik.touched.highScore && Boolean(formik.errors.highScore)}
-            />
-
-            <TextField 
-                id="strikeRate"
-                value={props.strikeRate}
-                style={styles.input}
-                // matches="strikeRate"
-                label="Strike Rate"
-                type="number"
-                InputProps={{ 
-                    startAdornment: (
-                        <InputAdornment position="start">
-                          <SportsCricket />
+                          <Email />
                         </InputAdornment>
                       ),}} 
                 variant="outlined"
                 fullWidth
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
-                // helperText={ formik.touched.strikeRate ? formik.errors.strikeRate : ""}
-                // error={formik.touched.strikeRate && Boolean(formik.errors.strikeRate)}
+                // helperText={ formik.touched.email ? formik.errors.email : ""}
+                // error={formik.touched.email && Boolean(formik.errors.email)}
             />
 
 
@@ -152,9 +137,9 @@ export default function EditDialog(props){
                 <Button style={styles.button} variant="contained" type="reset" onClick={handleClose} color="primary">
                     Close
                 </Button>
-                {/* <Button style={styles.button} variant="contained" type="submit" disabled={formik.isSubmitting} color="primary">
-                    Submit
-                </Button> */}
+                <Button style={styles.button} variant="contained" type="submit" color="primary">
+                    Update
+                </Button>
             </div>
         </form>
         </DialogContent>

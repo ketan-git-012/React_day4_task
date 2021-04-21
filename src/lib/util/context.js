@@ -2,12 +2,12 @@ import { createContext } from 'react';
 
 const CustomeSnack = createContext();
 
-const CustomSpineer = createContext({
+const CustomSpinner = createContext({
     loading : false,
     setLoading : () => {}
 })
 
 export { 
     CustomeSnack,
-    CustomSpineer
+    CustomSpinner
 }

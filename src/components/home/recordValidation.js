@@ -11,4 +11,17 @@ const recordValidation = {
                          .required("Password is Required")
 }
 
-export default recordValidation;
+const traineeValidation = {
+    firstname : Yup.string()
+                .required("Firstname is Required!"),
+    lastname : Yup.string()
+                .required("Lastname is Required!"),
+    email : Yup.string()
+                .required("Email is Required!")
+                .email("Email is invalid")
+}
+
+export  {
+    recordValidation,
+    traineeValidation
+};

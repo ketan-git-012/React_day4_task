@@ -53,7 +53,7 @@ export default function Header() {
           </Typography>
           <Button color="inherit" onClick={() => navigate('/home') }>Home</Button>
           <Button color="inherit" onClick={() => navigate('/profile') }>Profile</Button>
-          <Button color="inherit" onClick={ () => navigate('/math') }>Trainees</Button>
+          <Button color="inherit" onClick={ () => navigate('/trainees') }>Trainees</Button>
           <Button color="inherit" onClick={ () => navigate('/controlledinputs') }>Controlledinputs</Button>
           <Button color="inherit" onClick={ () => navigate('/slider') }>Slider</Button>
           <Button color="inherit" onClick={ () => navigate('/form') }>Form</Button>

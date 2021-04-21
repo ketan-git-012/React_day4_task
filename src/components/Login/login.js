@@ -13,6 +13,7 @@ import { ApolloConsumer, useMutation } from '@apollo/client';
 // import styles from '../textField/style';
 import LOGIN_USER from './../../pages/login/mutation';
 import client from './../../lib/apollo-client';
+import { Mutation } from 'react-apollo';
 
 
 const styles = {
@@ -60,17 +61,19 @@ export default function SignIn(props){
             password : ''
         },
         validationSchema : yup.object().shape(loginValidation),
-        onSubmit : (values) => {
-            client.mutate({
+        onSubmit : async (values) => {
+           await client.mutate({
                 mutation : LOGIN_USER,
                 variables : { email : values.email, password : values.password}
             })
             .then((response) => {
                 sessionStorage.setItem('mutation', true);
+                // sessionStorage.setItem('token',response.data.loginUser.token);
                 console.log("response of mutation:", response)
+                // console.log("response of mutation:", response.data.loginUser.token)
+                // history.push('/home');
             })
             .catch((error)=> console.error(error));
-            // console.log("return data of mutation:", data);
             console.log(values);
             axios.post(`${baseURL}/user/login`, values)
           .then(res => {

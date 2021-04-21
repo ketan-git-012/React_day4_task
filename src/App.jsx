@@ -19,6 +19,8 @@ import Cookies from 'js-cookie'
 import gql from 'graphql-tag'
 import Profile from './components/profile/profile';
 import client from './lib/apollo-client';
+import Table from './components/Table/Table';
+import TableTrainee from './components/Table/Table';
 
 // const authentication = {
 //   isLoggedIn : false,
@@ -164,6 +166,7 @@ class App extends React.Component{
                 <Route exact path='/' component={SignIn} />
                 <Route exact path='/home' component={Home} />
                 <Route exact path='/profile' component={Profile} />
+                <Route exact path='/trainees' render={ () => <TableTrainee limit="20" skip="0" />} />
                 <Route exact path='/math' render={ () => <Math first="2" second="1" operator="+" />} />
                 <Route exact path='/slider' render={ () =>  <Slider images={this.state.images} currentImage={ this.state.currentImage }/> } />
                 <Route exact path='/form' render={() => <Welcome validClass={this.state.validClass} valid={this.state.valid} invalid={this.state.invalid} inValidClass={this.state.inValidClass} onChange={this.handleChange} stylesheet={styles} />} />

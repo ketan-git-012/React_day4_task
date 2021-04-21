@@ -124,6 +124,7 @@ export default function DisplayProfile({match, props}){
     }
     
 
+    
     const handleSort = () =>{
         order === 'asc' ? setOrder('desc') : setOrder('asc');
         console.log("clicked");
