@@ -7,13 +7,8 @@ import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { useHistory } from "react-router-dom";
 import { CheckBox } from '@material-ui/icons';
-import axios from 'axios';
-import { baseURL } from './../../configs/configuration';
-import { ApolloConsumer, useMutation } from '@apollo/client';
-// import styles from '../textField/style';
 import LOGIN_USER from './../../pages/login/mutation';
 import client from './../../lib/apollo-client';
-import { Mutation } from 'react-apollo';
 
 
 const styles = {
@@ -67,40 +62,11 @@ export default function SignIn(props){
                 variables : { email : values.email, password : values.password}
             })
             .then((response) => {
-                sessionStorage.setItem('mutation', true);
-                // sessionStorage.setItem('token',response.data.loginUser.token);
+                sessionStorage.setItem('token',response.data.loginUser.token);
                 console.log("response of mutation:", response)
-                // console.log("response of mutation:", response.data.loginUser.token)
-                // history.push('/home');
+                history.push('/home');
             })
             .catch((error)=> console.error(error));
-            console.log(values);
-            axios.post(`${baseURL}/user/login`, values)
-          .then(res => {
-            console.log(res.data);
-            console.log(res.data.status);
-            if(res.data.status === 'success'){
-                sessionStorage.setItem('token',res.data.token);
-                document.cookie = "token=" + res.data.token;
-                history.push('/home');
-            }
-            else{
-                alert("Error:", res.error);
-                history.push('/');
-            }
-          })
-          .catch((error)=>{
-            if (error.response){
-
-                console.log(error.response.data.error);
-                alert(error.response.data.error);
-                
-                }else if(error.request){
-                    console.log(error.request)
-                }else if(error.message){
-                    console.log(error.message)
-                }
-          })
         }
     })
 

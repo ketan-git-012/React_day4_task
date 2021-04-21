@@ -3,25 +3,21 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
 import CustomSpinner from "../Spinner/Spinner";
 import CustomizedSnackBar from "../snackbar/Snackbar";
 import { CustomeSnack } from "../../lib/util/context";
 import { withLoaderAndMessage } from "../../HOC/withLoaderAndMessage";
 import client from "./../../lib/apollo-client";
-import { Button, TablePagination } from "@material-ui/core";
-import { Delete, Edit } from "@material-ui/icons";
+import { TablePagination } from "@material-ui/core";
 import { QUERY_GETALLTRAINEE } from "../../pages/Trainee/Query";
 import DeleteDialog from "../Dialog/DeleteDialog";
 import axios from "axios";
-import { baseURL } from './../../configs/configuration';
+import { baseURL } from "./../../configs/configuration";
 import EditTraineeDialog from "../Dialog/EditTraineeDialog";
-import { TraineeRow } from './../Trainee/components/TraineeRow';
+import { TraineeRow } from "./../Trainee/components/TraineeRow";
 import { UPDATE_TRAINEE } from "../../pages/Trainee/Mutation";
 
 const useStyles = makeStyles((theme) => ({
@@ -66,28 +62,25 @@ function TableTrainee(props) {
   const [deletingData, setDeletingData] = React.useState("");
   const [editData, setEditData] = React.useState({});
   const [deleteLoader, setDeleteLoader] = React.useState(false);
-  const [isSubmitting, setisSubmitting] = React.useState(false);
 
-  const getAllTrainees = () =>{
+  const getAllTrainees = () => {
     client
-    .query({
-      query: QUERY_GETALLTRAINEE,
-      variables: { limit: limit, skip: skip },
-    })
-    .then((response) => {
-      setLoader(false);
-      setTrainees(response.data.getAllTrainees);
-      // console.log("Response from query:", response.data);
-    })
-    .catch((error) => {
-      setOpenSnack(true);
-      setSnackBarMessage("Failed to fetch Trainees");
-      setSnackType("error");
-      setError(true);
-      console.error("error:", error);
-    });
-  }
- 
+      .query({
+        query: QUERY_GETALLTRAINEE,
+        variables: { limit: limit, skip: skip },
+      })
+      .then((response) => {
+        setLoader(false);
+        setTrainees(response.data.getAllTrainees);
+      })
+      .catch((error) => {
+        setOpenSnack(true);
+        setSnackBarMessage("Failed to fetch Trainees");
+        setSnackType("error");
+        setError(true);
+        console.error("error:", error);
+      });
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -99,13 +92,11 @@ function TableTrainee(props) {
   };
 
   const handleDeleteDialogOpen = (_id) => {
-    // setDeleteLoader(true);
     setDeletingData(_id);
     setOpenDelete(true);
   };
 
   getAllTrainees();
- 
 
   //for delete operation
 
@@ -118,23 +109,23 @@ function TableTrainee(props) {
     setDeleteLoader(false);
     console.log("deleting data:", _id);
 
-    axios.delete(`${baseURL}/trainee/deleteTrainee/${_id}`)
-    .then((response)=>{
+    axios
+      .delete(`${baseURL}/trainee/deleteTrainee/${_id}`)
+      .then((response) => {
         setOpenSnack(true);
         setSnackBarMessage("Deleted Successfully!");
         setSnackType("success");
         setOpenDelete(false);
         getAllTrainees();
         window.location.reload(false);
-    })
-    .catch((error)=>{
-      setOpenSnack(true);
+      })
+      .catch((error) => {
+        setOpenSnack(true);
         setSnackBarMessage("Unable to delete row!");
         setSnackType("error");
         setOpenDelete(false);
-    })
-  }
-
+      });
+  };
 
   const editHandler = (data) => {
     setEditData(data);
@@ -142,61 +133,60 @@ function TableTrainee(props) {
     console.log("selected id for editing : ", data);
   };
 
-    const handleEditCancel = () =>{
-      setOpenEdit(false);
+  const handleEditCancel = () => {
+    setOpenEdit(false);
   };
 
   const handleUpdate = (data) => {
     console.log("updating data: ", data);
-    const {id : _id, firstname, lastname, email, image} = data;
-    client.mutate({
-      mutation : UPDATE_TRAINEE,
-      variables : {
-            id : _id,
-            firstname : firstname,
-            lastname : lastname,
-            email : email,
-            image : image
-      }
-    })
-    .then((response)=>{
-      setOpenSnack(true);
-      setSnackBarMessage("Updated Successfully!");
-      setSnackType("success");
-      setOpenEdit(false);
-      window.location.reload(false);
-    })
-    .catch((error)=>{
-      setOpenSnack(true);
-      setSnackBarMessage("Updation Failed!");
-      setSnackType("error");
-      setOpenEdit(false);
-    })
-  }
+    const { id: _id, firstname, lastname, email, image } = data;
+    client
+      .mutate({
+        mutation: UPDATE_TRAINEE,
+        variables: {
+          id: _id,
+          firstname: firstname,
+          lastname: lastname,
+          email: email,
+          image: image,
+        },
+      })
+      .then((response) => {
+        setOpenSnack(true);
+        setSnackBarMessage("Updated Successfully!");
+        setSnackType("success");
+        setOpenEdit(false);
+        window.location.reload(false);
+      })
+      .catch((error) => {
+        setOpenSnack(true);
+        setSnackBarMessage("Updation Failed!");
+        setSnackType("error");
+        setOpenEdit(false);
+      });
+  };
 
   return (
     <>
-     <CustomeSnack.Provider
-                value={{
-                    opensnack : openSnack,
-                    autoHide : 4000,
-                    snackMessage : snackBarMessage,
-                    type : snackType
-                }}
-            >
-                <CustomizedSnackBar
-                    handleClose={()=> setOpenSnack(false)}
-                >
-                </CustomizedSnackBar>
-            </CustomeSnack.Provider>
+      <CustomeSnack.Provider
+        value={{
+          opensnack: openSnack,
+          autoHide: 4000,
+          snackMessage: snackBarMessage,
+          type: snackType,
+        }}
+      >
+        <CustomizedSnackBar
+          handleClose={() => setOpenSnack(false)}
+        ></CustomizedSnackBar>
+      </CustomeSnack.Provider>
 
       <div className={classes.root}>
-
-        <EditTraineeDialog 
+        <EditTraineeDialog
           edit={openEdit}
           handleClose={handleEditCancel}
           editData={editData}
-          handleUpdate={handleUpdate} 
+          handleUpdate={handleUpdate}
         />
 
         <DeleteDialog
@@ -211,14 +201,9 @@ function TableTrainee(props) {
 
         {trainees ? (
           <Paper className={classes.paper}>
-            {/* <TableContainer
-            component={Paper}
-            className={classes.TableContainer}
-          > */}
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  {/* <TableCell>Firstname</TableCell> */}
                   <StyledTableCell align="center">Firstname</StyledTableCell>
                   <StyledTableCell align="center">Lastname</StyledTableCell>
                   <StyledTableCell align="center">Email</StyledTableCell>
@@ -231,14 +216,14 @@ function TableTrainee(props) {
                 {trainees
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
-                    <TraineeRow  
-                    {...row}
-                    editHandler={editHandler}
-                    handleDeleteDialogOpen={handleDeleteDialogOpen} />
+                    <TraineeRow
+                      {...row}
+                      editHandler={editHandler}
+                      handleDeleteDialogOpen={handleDeleteDialogOpen}
+                    />
                   ))}
               </TableBody>
             </Table>
-            {/* </TableContainer> */}
             <TablePagination
               rowsPerPageOptions={[5, 10, 15]}
               component="div"
@@ -249,8 +234,7 @@ function TableTrainee(props) {
               onChangeRowsPerPage={handleChangeRowsPerPage}
             />
           </Paper>
-        ) : null
-      }
+        ) : null}
       </div>
     </>
   );
