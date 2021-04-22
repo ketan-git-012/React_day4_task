@@ -1,8 +1,14 @@
-import React from 'react';
-import MenuIcon from '@material-ui/icons/Menu';
-import { IconButton, Typography, Toolbar, AppBar, makeStyles, Button } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
+import React from "react";
+import MenuIcon from "@material-ui/icons/Menu";
+import {
+  IconButton,
+  Typography,
+  Toolbar,
+  AppBar,
+  makeStyles,
+  Button,
+} from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,46 +26,52 @@ export default function Header() {
   const history = useHistory();
   const classes = useStyles();
 
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
-  // const [anchorEl, setAnchorEl] = React.useState(null);
-  
-  // const handleMenu = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
-
   const navigate = (path) => {
     history.push(path);
-  }
+  };
 
-  const handleLogout = () =>{
-      sessionStorage.removeItem('token');
-      removeCookie('token');
-      // history.push('/');
-      console.log("user logged out");
-  }
+  const handleLogout = () => {
+    sessionStorage.removeItem("token");
+    console.log("user logged out");
+  };
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+          >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             React Training
           </Typography>
-          <Button color="inherit" onClick={() => navigate('/home') }>Home</Button>
-          <Button color="inherit" onClick={() => navigate('/profile') }>Profile</Button>
-          <Button color="inherit" onClick={ () => navigate('/trainees') }>Trainees</Button>
-          <Button color="inherit" onClick={ () => navigate('/controlledinputs') }>Controlledinputs</Button>
-          <Button color="inherit" onClick={ () => navigate('/slider') }>Slider</Button>
-          <Button color="inherit" onClick={ () => navigate('/form') }>Form</Button>
-          <Button color="inherit" onClick={ () => handleLogout() }>Logout</Button>
+          <Button color="inherit" onClick={() => navigate("/home")}>
+            Home
+          </Button>
+          <Button color="inherit" onClick={() => navigate("/profile")}>
+            Profile
+          </Button>
+          <Button color="inherit" onClick={() => navigate("/trainees")}>
+            Trainees
+          </Button>
+          <Button color="inherit" onClick={() => navigate("/controlledinputs")}>
+            Controlledinputs
+          </Button>
+          <Button color="inherit" onClick={() => navigate("/slider")}>
+            Slider
+          </Button>
+          <Button color="inherit" onClick={() => navigate("/form")}>
+            Form
+          </Button>
+          <Button color="inherit" onClick={() => handleLogout()}>
+            Logout
+          </Button>
         </Toolbar>
-    </AppBar>
+      </AppBar>
     </div>
   );
 }

@@ -1,13 +1,10 @@
-import { createContext } from 'react';
+import { createContext } from "react";
 
 const CustomeSnack = createContext();
 
 const CustomSpinner = createContext({
-    loading : false,
-    setLoading : () => {}
-})
+  loading: false,
+  setLoading: () => {},
+});
 
-export { 
-    CustomeSnack,
-    CustomSpinner
-}
+export { CustomeSnack, CustomSpinner };

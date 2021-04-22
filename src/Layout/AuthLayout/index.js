@@ -1,3 +1,3 @@
-import { AuthLayout, AuthLayoutRoute } from './AuthLayout';
+import { AuthLayout, AuthLayoutRoute } from "./AuthLayout";
 
-export { AuthLayout, AuthLayoutRoute};
+export { AuthLayout, AuthLayoutRoute };

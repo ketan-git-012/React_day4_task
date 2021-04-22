@@ -1,9 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export default function ControlledInputs() {
-    return (
-        <div>
-            Controlled Inputs 
-        </div>
-    )
+  return <div>Controlled Inputs</div>;
 }
