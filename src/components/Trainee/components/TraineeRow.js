@@ -1,6 +1,7 @@
 import { Button, TableCell, TableRow, withStyles } from "@material-ui/core";
 import { Delete, Edit } from "@material-ui/icons";
 import React, { useState } from "react";
+
 import CustomSpinner from "../../Spinner/Spinner";
 
 const StyledTableCell = withStyles((theme) => ({
@@ -11,7 +12,6 @@ const StyledTableCell = withStyles((theme) => ({
   body: {
     fontSize: 14,
   },
-  // hover: {},
 }))(TableCell);
 
 export const TraineeRow = ({
@@ -37,7 +37,8 @@ export const TraineeRow = ({
       <StyledTableCell align="center">
         <Button
           type="button"
-          onClick={() => editHandler({id, firstname, lastname, email, image }) }>
+          onClick={() => editHandler({ id, firstname, lastname, email, image })}
+        >
           <Edit />
         </Button>
       </StyledTableCell>

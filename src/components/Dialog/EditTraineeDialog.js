@@ -75,7 +75,7 @@ export default function EditTraineeDialog(props) {
               ),
             }}
             onChange={(e) => setFirstname(e.target.value)}
-           />
+          />
 
           <TextField
             id="lastname"
@@ -93,7 +93,7 @@ export default function EditTraineeDialog(props) {
             }}
             fullWidth
             onChange={(e) => setLastname(e.target.value)}
-           />
+          />
 
           <TextField
             style={styles.input}
@@ -111,7 +111,7 @@ export default function EditTraineeDialog(props) {
             variant="outlined"
             fullWidth
             onChange={(e) => setEmail(e.target.value)}
-            />
+          />
 
           <div style={styles.actions}>
             <Button

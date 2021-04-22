@@ -6,19 +6,20 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import CustomSpinner from "../Spinner/Spinner";
+import { TablePagination } from "@material-ui/core";
+import axios from "axios";
+
 import CustomizedSnackBar from "../snackbar/Snackbar";
 import { CustomeSnack } from "../../lib/util/context";
 import { withLoaderAndMessage } from "../../HOC/withLoaderAndMessage";
 import client from "./../../lib/apollo-client";
-import { TablePagination } from "@material-ui/core";
 import { QUERY_GETALLTRAINEE } from "../../pages/Trainee/Query";
-import DeleteDialog from "../Dialog/DeleteDialog";
-import axios from "axios";
 import { baseURL } from "./../../configs/configuration";
 import EditTraineeDialog from "../Dialog/EditTraineeDialog";
 import { TraineeRow } from "./../Trainee/components/TraineeRow";
 import { UPDATE_TRAINEE } from "../../pages/Trainee/Mutation";
+import CustomSpinner from "../Spinner/Spinner";
+import DeleteDialog from "../Dialog/DeleteDialog";
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -43,7 +44,6 @@ const StyledTableCell = withStyles((theme) => ({
   body: {
     fontSize: 14,
   },
-  // hover: {},
 }))(TableCell);
 
 function TableTrainee(props) {
@@ -74,6 +74,7 @@ function TableTrainee(props) {
         setTrainees(response.data.getAllTrainees);
       })
       .catch((error) => {
+        setLoader(false);
         setOpenSnack(true);
         setSnackBarMessage("Failed to fetch Trainees");
         setSnackType("error");
@@ -199,7 +200,7 @@ function TableTrainee(props) {
 
         {trainees.length === 0 ? <p>OOPS!, No More Trainees</p> : null}
 
-        {trainees ? (
+        {trainees.length !== 0 ? (
           <Paper className={classes.paper}>
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
@@ -217,6 +218,7 @@ function TableTrainee(props) {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                     <TraineeRow
+                      key={row._id}
                       {...row}
                       editHandler={editHandler}
                       handleDeleteDialogOpen={handleDeleteDialogOpen}
